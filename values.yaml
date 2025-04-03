@@ -1,0 +1,86 @@
+image:
+  registry: ghcr.io
+  repository: ucsd-ets/spark-node
+  tag: fa22-3
+  pullPolicy: Always
+
+serviceAccount:
+  name: default
+  create: false
+
+master:
+  podSecurityContext:
+    runAsUser: 6936
+    fsGroup: 0
+  containerSecurityContext:
+    runAsUser: 6936
+  resources:
+    limits:
+      cpu: 8
+      memory: 8G
+    requests:
+      cpu: 4
+      memory: 4G
+  memoryLimit: 8G
+  extraVolumes:
+  - name: course-workspace
+    path: /export/workspaces/CSE255_SP25_A00
+  - name: home
+    persistentVolumeClaim:
+      claimName: home
+#  - name: datasets
+#    persistentVolumeClaim:
+#      claimName: dsmlp-datasets
+  extraVolumeMounts:
+  - name: course-workspace
+    mountPath: /home/grader-cse255-01
+    subPath: home/grader-cse255-01
+  - name: course-workspace
+    mountPath: /home/grader-cse255-01/public
+    subPath: public
+  - name: home
+    mountPath: /home/grader-cse255-01/private
+#  - name: datasets
+#    mountPath: /datasets  
+
+worker:
+  replicaCount: 2 
+  podSecurityContext:
+    runAsUser: 6936 
+    runAsGroup: 0
+    fsGroup: 0
+  containerSecurityContext:
+    runAsUser: 6936 
+  resources:
+    requests:
+      memory: 4G
+      cpu: 2
+    limits:
+      memory: 8G
+      cpu: 8
+  coreLimit: 8
+  memoryLimit: 8G
+  extraVolumes:
+  - name: course-workspace  
+    nfs:
+      server: its-dsmlp-fs04.ucsd.edu
+      path: /export/workspaces/CSE255_SP25_A00
+  - name: home
+    persistentVolumeClaim:
+      claimName: home
+#  - name: datasets
+#    persistentVolumeClaim:
+#      claimName: dsmlp-datasets
+  extraVolumeMounts:
+  - name: course-workspace
+    mountPath: /home/grader-cse255-01
+    subPath: home/grader-cse255-01
+  - name: course-workspace
+    mountPath: /home/grader-cse255-01/public
+    subPath: public
+  - name: home
+    mountPath: /home/grader-cse255-01/private
+#  - name: datasets
+#    mountPath: /datasets
+
+
