@@ -4,18 +4,32 @@ Scripts to create a Spark cluster.
 
 # Manage Cluster
 
-## Start cluster
+## Connect to login server
+
+```
+ssh username@dsmlp-login.ucsd.edu
+```
+
+## Checkout the scripts
+
+Checkout the scripts and change to the directory.
+
+```
+git pull https://github.com/ucsd-ets/spark-scripts.git
+cd ~/spark-scripts
+```
+
+## Start Spark
 
 Modify values.yaml with the size of the master/worker nodes.
 
 For information on the configuration please see https://github.com/bitnami/charts/blob/main/bitnami/spark/values.yaml
 
-Run
-
+Run `helmfile` to start the cluster.
 ```
+
 helmfile sync
 ```
-
 
 ## Stop Cluster
 
