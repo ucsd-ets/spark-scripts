@@ -8,19 +8,23 @@ serviceAccount:
   name: default
   create: false
 
+networkPolicy:
+  enabled: false
+
 master:
   podSecurityContext:
     runAsUser: 6936
+    runAsGroup: 0
     fsGroup: 0
   containerSecurityContext:
     runAsUser: 6936
   resources:
     limits:
-      cpu: 10
+      cpu: 4
       memory: 10G
     requests:
       cpu: 4
-      memory: 4G
+      memory: 10G
   memoryLimit: 8G
   extraVolumes:
   - name: course-workspace
@@ -44,7 +48,7 @@ master:
 #    mountPath: /datasets  
 
 worker:
-  replicaCount: 4 
+  replicaCount: 3 
   podSecurityContext:
     runAsUser: 6936 
     runAsGroup: 0
@@ -53,13 +57,13 @@ worker:
     runAsUser: 6936 
   resources:
     requests:
-      memory: 10G
-      cpu: 10
+      memory: 20G
+      cpu: 4
     limits:
-      memory: 10G
-      cpu: 10
-  coreLimit: 4
-  memoryLimit: 4G
+      memory: 20G
+      cpu: 4
+  coreLimit: 2
+  memoryLimit: 14G
   extraVolumes:
   - name: course-workspace  
     nfs:

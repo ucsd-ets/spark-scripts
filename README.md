@@ -2,7 +2,9 @@
 
 Scripts to create a Spark cluster.
 
-# Start cluster
+# Manage Cluster
+
+## Start cluster
 
 Modify values.yaml with the size of the master/worker nodes.
 
@@ -15,23 +17,44 @@ helmfile sync
 ```
 
 
-# Stop Cluster
+## Stop Cluster
 
 ```
 helmfile destroy
 ```
 
-# Connect to cluster with Python
+# Usage
 
+## Initialize Spark
+
+Prepare the Spark context. Set the driver host so nodes can connect to it.
 
 ```
 from pyspark import SparkConf, SparkContext
 
-# Create a Spark configuration
-conf = SparkConf().setAppName("MyApp")\
-            .setMaster("spark://spark-master-0.spark-headless.grader-cse255-01.svc.cluster.local:7077")
-# Initialize SparkContext
+conf = SparkConf()
+conf.setAppName("myapp")
+conf.setMaster('spark://spark-master-svc:7077') 
+conf.set("spark.driver.host", driver_host)
+
 sc = SparkContext(conf=conf)
+
+```
+
+## Example
+
+This example calculates pi.
+
+```
+n = 100000
+
+def f(_: int) -> float:
+    x = random() * 2 - 1
+    y = random() * 2 - 1
+    return 1 if x ** 2 + y ** 2 <= 1 else 0
+
+count = sc.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
+sc.stop()
 
 ```
 
