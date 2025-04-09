@@ -50,9 +50,10 @@ def get_local_ip():
 
 from pyspark import SparkConf, SparkContext
 
+namespace = 'grader-cse255-01'
 conf = SparkConf()
 conf.setAppName("myapp")
-conf.setMaster('spark://spark-master-svc:7077') 
+conf.setMaster(f"spark://spark-master-0.spark-headless.{namespace}.svc.cluster.local:7077") 
 conf.set("spark.driver.host", driver_host)
 
 sc = SparkContext(conf=conf)
