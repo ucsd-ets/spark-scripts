@@ -16,8 +16,8 @@ master:
     runAsUser: 6936
   resources:
     limits:
-      cpu: 8
-      memory: 8G
+      cpu: 10
+      memory: 10G
     requests:
       cpu: 4
       memory: 4G
@@ -44,7 +44,7 @@ master:
 #    mountPath: /datasets  
 
 worker:
-  replicaCount: 2 
+  replicaCount: 4 
   podSecurityContext:
     runAsUser: 6936 
     runAsGroup: 0
@@ -53,13 +53,13 @@ worker:
     runAsUser: 6936 
   resources:
     requests:
-      memory: 4G
-      cpu: 2
+      memory: 10G
+      cpu: 10
     limits:
-      memory: 8G
-      cpu: 8
-  coreLimit: 8
-  memoryLimit: 8G
+      memory: 10G
+      cpu: 10
+  coreLimit: 4
+  memoryLimit: 4G
   extraVolumes:
   - name: course-workspace  
     nfs:
