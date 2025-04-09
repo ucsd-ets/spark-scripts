@@ -63,6 +63,9 @@ sc = SparkContext(conf=conf)
 This example calculates pi.
 
 ```
+from random import random
+from operator import add
+
 n = 100000
 
 def f(_: int) -> float:
