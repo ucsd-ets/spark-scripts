@@ -4,34 +4,30 @@ Scripts to create a Spark cluster.
 
 # Manage Cluster
 
-## Connect to login server
+Connect to the login server.
 
 ```
 ssh username@dsmlp-login.ucsd.edu
 ```
 
-## Checkout the scripts
-
-Checkout the scripts and change to the directory.
+Checkout the scripts and change to the `spark-scripts` directory.
 
 ```
-git pull https://github.com/ucsd-ets/spark-scripts.git
+git clone https://github.com/ucsd-ets/spark-scripts.git
 cd ~/spark-scripts
 ```
-
-## Start Spark
 
 Modify values.yaml with the size of the master/worker nodes.
 
 For information on the configuration please see https://github.com/bitnami/charts/blob/main/bitnami/spark/values.yaml
 
-Run `helmfile` to start the cluster.
-```
+Use `helmfile` to start the Spark cluster.
 
+```
 helmfile sync
 ```
 
-## Stop Cluster
+Use `helmfile` to stop the Spark cluster.
 
 ```
 helmfile destroy
@@ -39,9 +35,9 @@ helmfile destroy
 
 # Usage
 
-## Initialize Spark
+## pyspark
 
-Prepare the Spark context. Set the driver host so nodes can connect to it.
+Prepare the Spark context. Set `spark.driver.host` so nodes can connect to it.
 
 ```
 from pyspark import SparkConf, SparkContext
@@ -55,8 +51,6 @@ sc = SparkContext(conf=conf)
 
 ```
 
-## Example
-
 This example calculates pi.
 
 ```
@@ -69,14 +63,11 @@ def f(_: int) -> float:
 
 count = sc.parallelize(range(1, n + 1), partitions).map(f).reduce(add)
 sc.stop()
-
 ```
 
-# Connect to Job UI
+## Job UI
 
-First enable it:
-
-in ~/.jupyter/jupyter_notebook_config.py put the lines
+In your notebook update `host_allowlist` in `~/.jupyter/jupyter_notebook_config.py`.
 
 ```
 def allow_all_hosts(host, x):
@@ -86,20 +77,19 @@ def allow_all_hosts(host, x):
 c.ServerProxy.host_allowlist = allow_all_hosts
 ```
 
-Navigate to :
+Navigate to https://datahub.ucsd.edu/hub/user-redirect/proxy/spark-master-0.spark-headless.grader-cse255-01.svc.cluster.local:8080 in the browser to see the Spark Web UI.
 
-https://datahub.ucsd.edu/user/grader-cse255-01/proxy/spark-master-0.spark-headless.grader-cse255-01.svc.cluster.local:8080
+## Logs
 
-
-
-# Viewing the logs
+Use `kubectl` to view the logs.
 
 ```
+kubectl get pod
 kubectl logs spark-master-0
 kubectl logs spark-worker-0
 ```
 
-# View worker IPs
+## View worker IPs
 
 ```
 kubectl get pod -owide
