@@ -24,13 +24,13 @@ For information on the configuration please see https://github.com/bitnami/chart
 Use `helmfile` to start the Spark cluster.
 
 ```
-helmfile sync
+./start-cluster.sh
 ```
 
 Use `helmfile` to stop the Spark cluster.
 
 ```
-helmfile destroy
+./stop-cluster.sh
 ```
 
 # Usage
