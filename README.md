@@ -50,6 +50,7 @@ def get_local_ip():
 
 from pyspark import SparkConf, SparkContext
 
+driver_host = get_local_ip()
 namespace = 'grader-cse255-01'
 conf = SparkConf()
 conf.setAppName("myapp")
