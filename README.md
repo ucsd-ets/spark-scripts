@@ -64,6 +64,9 @@ sc = SparkContext(conf=conf)
 This example calculates pi.
 
 ```
+from random import random
+from operator import add
+
 partitions = 2
 n = 100000 * partitions
 
